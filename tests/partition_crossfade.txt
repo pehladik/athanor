@@ -1,0 +1,2 @@
+"note": {"date":0.5, "son": ["wav", "petit_torrent"], "effet":["crossfade", 0, 3, 2]}
+"note": {"date":3.5, "son": ["wav", "rue_joyeuse"], "effet":["crossfade", 2, 2, 2]}

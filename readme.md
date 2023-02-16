@@ -46,6 +46,20 @@ sound3 : _________________////            \\\\\\\\\___
          0.0-0.5-1.0-1.5-2.0-2.5-3.0-3.5-4.0-4.5-5.0
 ```
 
+## Stereo
+
+Par défaut le son est en stereo avec la même puissance à droite et gauche. Il est possible de spécifier sur quel canal (doit ou gauche) est joué le son. Il suffit d'ajouter à la note un nouveau paramètre (s'il n'ets pas spécifié, le son est joué en stéréo avec la même puissance) : `"canal":["<param>"]`. Les paramètres possibles sont :
+
+- stéréo : paramètre par défaut, le son est joué sur les deux canaux avec la même puissance. On écrit `"canal":["stereo"]`
+- mono droite : le son est joué sur le canal droit. On écrit `"canal":["mono-droit"]`
+- mono gauche : le son est joué sur le canal gauche. On écrit `"canal":["mono-gauche"]`
+- mono aléatoire : le son est joué sur un unique canal. Le choix du canal est aléatoire. On écrit  `"canal":["mono-random"]`
+- mono incrémental : le son est joué sur un unique canal. Le choix du canal alterne à chaque nouveau son avec ce paramètre. On écrit  `"canal":["mono-incremental"]`
+- circulaire : le son passe d'un canal à un autre. On écrit `"canal":["circular", "<sens>", <duree>, ]` avec `<sens>` soit `left_to_right` pour que le son passe du canal gauche au canal droit, soit `right_to_left` pour l'inverse, et `<duree>` le temps en seconde pour que le son passe. Le son est coupé après cette durée.
+- choix des canaux : un gain est appliqué au canal droit et gauche. On écrit `"canal":["gain", <left>, <right>]` avec `<left>`, respectivement `<right>`, le gain en dB appliqué sur le canal gauche, resp. le canal droit.
+
+Attention le paramètre `effet` est appliqués avant `canal`.
+
 ## Génération de la bande sonore
 
 Pour générer la bande sonore vous pouvez appeler le script pyhton `to_audio.py`, les options à passer sont :

@@ -1,8 +1,10 @@
 from pydub import AudioSegment
 import json
 import argparse
+import random
 
 def main(partition, fileout, duration, sounds):
+    random.seed(None)
 
     piste = AudioSegment.silent(duration=duration)
 
@@ -11,7 +13,7 @@ def main(partition, fileout, duration, sounds):
 
     print("start reading partition")
     for line in lines:
-        print("line:", line, end="")
+        #print("line:", line, end="")
         res = json.loads(line[line.index("{"):line.index("}")+1])
         pos = int(res['date']*1000)
         
@@ -22,19 +24,57 @@ def main(partition, fileout, duration, sounds):
             effet = res['effet']
             if (effet[0] == "cut"):                
                 sound = sound[:int(float(effet[1])*1000)] # cut the sound
-                print(int(float(effet[1])*1000))
             elif (effet[0] == "crossfade"): # add crossfade effect
                 duration_in = int(float(effet[1])*1000)
                 duration_normal = int(float(effet[2])*1000)
                 duration_out = int(float(effet[2])*1000)
                 
                 pos = pos - duration_in
-                if (effet[1] > 0):
+                if (float(effet[1]) > 0):
                     sound = sound.fade(from_gain=-120.0, start=0, duration=duration_in)
                 sound = sound.fade(to_gain=-120.0, start=duration_in+duration_normal, duration=duration_out)
                 sound = sound[:duration_in + duration_normal + duration_out]
+            
             elif (effet[0] == "superposition"): # default behaviour
                 pass
+
+        inc = random.choice([True, False])
+        if 'canal' in res.keys():
+            canal = res['canal']
+            #print('canal', canal)
+            if (canal[0] == 'stereo') :
+                pass
+            elif (canal[0] == 'mono-droit') :
+                sound = sound.pan(+1.0)
+            elif (canal[0] == 'mono-gauche') :
+                sound = sound.pan(-1.0)
+            elif (canal[0] == 'mono-random') :
+                if (random.choice([True, False])):
+                    sound = sound.pan(+1.0)
+                else:
+                    sound = sound.pan(-1.0)
+            elif (canal[0] == 'mono-incremental') :
+                if (inc):
+                    sound = sound.pan(+1.0)
+                    inc = False
+                else:
+                    sound = sound.pan(-1.0)
+                    inc = True
+            elif (canal[0] == 'circular') :
+                duree = canal[2] * 1000                
+                circ_sound = AudioSegment.silent(duration=0)
+                if (canal[1] == "left_to_right"):
+                    sens = 1
+                elif (canal[1] == "right_to_left"):
+                    sens = -1
+                i = 0
+                step = 100
+                while (i <= duree):
+                    circ_sound = circ_sound + sound[i:i+step].pan(sens*(2*i - duree)/duree)
+                    i += step
+                sound = circ_sound
+            elif (canal[0] == 'gain') :
+                sound = sound.apply_gain_stereo(int(canal[1]), int(canal[2]))
 
         piste = piste.overlay(sound, position=pos)
 

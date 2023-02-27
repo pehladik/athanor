@@ -10,22 +10,18 @@ Une partition est une succession de notes décrites dans un fichier texte, par e
 
 ## Note
 
-De base, chaque note associe un son avec une date à laquelle il doit être produit. Par exemple :
-```"note": {"date":0.19, "son": ["wav", "e"]}``` joue le son du fichier audio `e.wav` à l'instant 0.19 (les dates sont en seconde).
+De base, chaque note associe un son avec une date à laquelle il doit être produit. Par exemple `"note": {"date":0.19, "son": ["wav", "e"]}` joue le son du fichier audio `e.wav` à l'instant 0.19 (les dates sont en seconde).
 
-Le format d'une note est:
-```
-"note": {"date":<date>, "son": [<format>, <nom>]}
-```
+Le format d'une note est:`"note": {"date":<date>, "son": [<format>, <nom>]}`
 avec `<date>` l'instant en seconde auquel sera joué le son, `<format>` le format d'encodage du son (wav, mp3, etc.) et `<nom>` le nom du fichier son (sans l'extension).
 
 ## Effet
 
-Il est possible d'ajouter un effet sur une note en ajoutant dans sa description un élémente `effet`, par exemple `"note": {"date":0.19, "son": ["wav", "e"], "effet" = ["cut",0.12]}` coupe le son après 0.12s.
+Il est possible d'ajouter un effet sur une note, par exemple `"note": {"date":0.19, "son": ["wav", "e"], "effet" = ["cut",0.12]}` coupe le son après 0.12s.
 
 Trois effets sont actuellement prévus :
-- superposition : permet de superposer le sons sur le reste de piste. Cet effet est appliqué par défaut (avec un _crossfade_ de 100 ms par défaut pour éviter les glitchs) et s'écrit `"effet" = ["supersposition"]`.
-- coupe : permet de couper net le son après un certain délai. Cet effet s'écrit `"effet" = ["cut", <duree>]` avec `duree` le temps après lequel le son est stoppé. L'effet _cut_ peut se cumuler avec l'effet de superposition si les dates de démarrage du son recouvre un autre son. Pour avoir deux sons distincts, il faut s'assurer que le son est terminé (coupé) avant la date à laquelle sera jouée le son suivant.
+- superposition : superpose le sons sur le reste de le piste. Cet effet est appliqué par défaut (avec un _crossfade_ de 100 ms par défaut pour éviter les glitchs) et s'écrit `"effet" = ["supersposition"]`.
+- coupe : coupe net le son après un certain délai. Cet effet s'écrit `"effet" = ["cut", <duree>]` avec `<duree>` le temps après lequel le son est stoppé. L'effet _cut_ peut se cumuler avec l'effet de superposition si les dates de démarrage du son recouvrent un autre son. Pour avoir deux sons distincts, il faut s'assurer que le son est terminé (coupé) avant la date à laquelle sera jouée le son suivant.
 - fondu enchaîné : permet d'avoir une montée progressive d'un son puis sa réduction. Cet effet s'écrit
 `"effet" = ["crossfade", <start>, <duration>, <end>]}` avec `<start>` la durée (en seconde) de la montée, attention la date à laquelle sera joué le son est décalée de cette durée (le son commencera donc à `date-start`), `<duration>` est la durée (en seconde) pendant lequel le son est joué à son volume normal, et `<end>` est la durée de la descente. Le son est coupé après une durée de `<start> + <duration> + <end>`
 

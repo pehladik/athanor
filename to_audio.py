@@ -26,7 +26,7 @@ def main(partition, fileout, duration, sounds):
         if 'effet' in res.keys():
             effet = res['effet']
             if (effet[0] == "cut"):                
-                sound = sound[:int(float(effet[1])*1000)] # cut the sound
+                sound = sound[:int(float(effet[1])*1000)] # cut the sound                
             elif (effet[0] == "cut-next"):
                 # find next date
                 if (idx_line == len(lines) -1):
@@ -86,6 +86,11 @@ def main(partition, fileout, duration, sounds):
                 sound = circ_sound
             elif (canal[0] == 'gain') :
                 sound = sound.apply_gain_stereo(int(canal[1]), int(canal[2]))
+
+        if 'fade' in res.keys():
+            fade_duration = int(res['fade']*1000)
+            sound = sound.fade(from_gain=-120.0, start=0, duration=fade_duration)
+            sound = sound.fade(to_gain=-120.0, start=len(sound)-1-fade_duration, duration=fade_duration)
 
         piste = piste.overlay(sound, position=pos)
 

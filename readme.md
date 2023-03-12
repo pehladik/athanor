@@ -22,6 +22,7 @@ Il est possible d'ajouter un effet sur une note, par exemple `"note": {"date":0.
 Trois effets sont actuellement prévus :
 - superposition : superpose le sons sur le reste de le piste. Cet effet est appliqué par défaut (avec un _crossfade_ de 100 ms par défaut pour éviter les glitchs) et s'écrit `"effet" = ["supersposition"]`.
 - coupe : coupe net le son après un certain délai. Cet effet s'écrit `"effet" = ["cut", <duree>]` avec `<duree>` le temps après lequel le son est stoppé. L'effet _cut_ peut se cumuler avec l'effet de superposition si les dates de démarrage du son recouvrent un autre son. Pour avoir deux sons distincts, il faut s'assurer que le son est terminé (coupé) avant la date à laquelle sera jouée le son suivant.
+- coupe au suivant : coupe le son au démarrage de la prochaine note. Cet effet s'écrit `"effet" = ["cut-next"]`.
 - fondu enchaîné : permet d'avoir une montée progressive d'un son puis sa réduction. Cet effet s'écrit
 `"effet" = ["crossfade", <start>, <duration>, <end>]}` avec `<start>` la durée (en seconde) de la montée, attention la date à laquelle sera joué le son est décalée de cette durée (le son commencera donc à `date-start`), `<duration>` est la durée (en seconde) pendant lequel le son est joué à son volume normal, et `<end>` est la durée de la descente. Le son est coupé après une durée de `<start> + <duration> + <end>`
 
@@ -44,7 +45,7 @@ sound3 : _________________////            \\\\\\\\\___
 
 ## Stereo
 
-Par défaut le son est en stereo avec la même puissance à droite et gauche. Il est possible de spécifier sur quel canal (doit ou gauche) est joué le son. Il suffit d'ajouter à la note un nouveau paramètre (s'il n'ets pas spécifié, le son est joué en stéréo avec la même puissance) : `"canal":["<param>"]`. Les paramètres possibles sont :
+Par défaut le son est en stereo avec la même puissance à droite et gauche. Il est possible de spécifier sur quel canal (droit ou gauche) est joué le son. Il suffit d'ajouter à la note un nouveau paramètre (s'il n'est pas spécifié, le son est joué en stéréo avec la même puissance) : `"canal":["<param>"]`. Les paramètres possibles sont :
 
 - stéréo : paramètre par défaut, le son est joué sur les deux canaux avec la même puissance. On écrit `"canal":["stereo"]`
 - mono droite : le son est joué sur le canal droit. On écrit `"canal":["mono-droit"]`

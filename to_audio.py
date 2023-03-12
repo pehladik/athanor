@@ -3,6 +3,8 @@ import json
 import argparse
 import random
 
+
+
 def main(partition, fileout, duration, sounds):
     random.seed(None)
 
@@ -12,8 +14,9 @@ def main(partition, fileout, duration, sounds):
     lines = f.readlines()
 
     print("start reading partition")
-    for line in lines:
+    for idx_line in range(0, len(lines)):
         #print("line:", line, end="")
+        line = lines[idx_line]
         res = json.loads(line[line.index("{"):line.index("}")+1])
         pos = int(res['date']*1000)
         
@@ -24,6 +27,14 @@ def main(partition, fileout, duration, sounds):
             effet = res['effet']
             if (effet[0] == "cut"):                
                 sound = sound[:int(float(effet[1])*1000)] # cut the sound
+            elif (effet[0] == "cut-next"):
+                # find next date
+                if (idx_line == len(lines) -1):
+                    print("attention effet cut-next en fin de partition")
+                else:
+                    next_line = lines[idx_line+1]
+                    n_res = json.loads(next_line[next_line.index("{"):next_line.index("}")+1])
+                    sound = sound[:int(float(n_res['date']-res['date'])*1000)] # cut the sound
             elif (effet[0] == "crossfade"): # add crossfade effect
                 duration_in = int(float(effet[1])*1000)
                 duration_normal = int(float(effet[2])*1000)

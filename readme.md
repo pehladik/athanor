@@ -17,6 +17,21 @@ avec `<date>` l'instant en seconde auquel sera joué le son, `<format>` le forma
 
 Il est possible d'ajouter un champ pour faire un fondu (fade) au début et à la fin du son. Pour cela il faut écrire `"note": {"date":<date>, "son": [<format>, <nom>], "fade":<duree>}` avec `<duree>` la durée du fondu exprimé en seconde (par exemple, une valeur de 0.2 permet de faire un fondu de 200ms au début et à la fin du son). Cet effet est appliqué avec tous les autres effets (voir ci-après).
 
+## Gain
+
+Il est possible de gérer le niveau du son en ajoutant un paramètre de type `gain`sur une note, par exemple 
+`"note": {"date":1.23, "son": ["wav", "e"], "gain" = 3.2}` augmente de 3.2 dB le son.
+
+L'intensité sonore de l'ensemble du son sera modifié avant tout autre effet. Le gain est une valeur numérique (réel) spécifié en dB.
+
+## Accélération
+
+Une note peut être accélérée à l'aide du mot clé `speedup`, par exemple 
+`"note": {"date":1.23, "son": ["wav", "heartbeat"], "speedup" = 1.19}` accèlere de 19% le son `heartbeat.wav`. Cette accélératio est calculée avant tout autre effet.
+
+Attention, l'accélération fait perdre une partie du son de base.
+
+
 ## Effet
 
 Il est possible d'ajouter un effet sur une note, par exemple `"note": {"date":0.19, "son": ["wav", "e"], "effet" = ["cut",0.12]}` coupe le son après 0.12s.

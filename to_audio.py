@@ -1,4 +1,5 @@
 from pydub import AudioSegment
+from pydub import effects
 import json
 import argparse
 import random
@@ -22,6 +23,14 @@ def main(partition, fileout, duration, sounds):
         
         audiofile =  res['son'][1]+"."+res['son'][0]
         sound = AudioSegment.from_file(sounds+"/"+audiofile, format=res['son'][0])       
+
+        if 'gain' in res.keys():
+            gain = float(res['gain'])
+            sound = sound + gain
+        if 'speedup' in res.keys():
+            speedup = float(res['speedup'])
+            print(speedup)
+            sound = effects.speedup(sound, playback_speed=speedup)
 
         if 'effet' in res.keys():
             effet = res['effet']

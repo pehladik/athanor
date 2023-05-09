@@ -1,0 +1,65 @@
+{    
+   "partition":[
+        {
+            "paragraphe" :
+            {
+                "texte" : "Vrai ! — je suis très nerveux, épouvantablement nerveux, je l’ai toujours été ; mais pourquoi prétendez-vous que je suis fou ? La maladie a aiguisé mes sens, — elle ne les a pas détruits, — elle ne les a pas émoussés. Plus que tous les autres, j’avais le sens de l’ouïe très fin. J’ai entendu toutes choses du ciel et de la terre. J’ai entendu bien des choses de l’enfer. Comment donc suis-je fou ? Attention ! Et observez avec quelle santé, — avec quel calme je puis vous raconter toute l’histoire.",
+                "didascalies":
+                    [
+                        {"debut":0.24, "position":22, "taille":7},
+                        {"debut":0.5, "position":48, "taille":7},
+                        {"debut":1.2, "position":100, "taille":7}
+                    ]
+            }
+        },
+        {
+            "paragraphe" :
+            {
+                "texte" : "Il est impossible de dire comment l’idée entra primitivement dans ma cervelle ; mais, une fois conçue, elle me hanta nuit et jour. D’objet, il n’y en avait pas. La passion n’y était pour rien. J’aimais le vieux bonhomme. Il ne m’avait jamais fait de mal. Il ne m’avait jamais insulté. De son or je n’avais aucune envie. Je crois que c’était son œil ! Oui, c’était cela ! Un de ses yeux ressemblait à celui d’un vautour, — un œil bleu pâle, avec une taie dessus. Chaque fois que cet œil tombait sur moi, mon sang se glaçait ; et ainsi, lentement, — par degrés, — je me mis en tête d’arracher la vie du vieillard, et par ce moyen de me délivrer de l’œil à tout jamais.",
+                "didascalies":
+                    [
+                        {"debut":1.5, "position":22, "taille":7},
+                        {"debut":1.9, "position":48, "taille":7},
+                        {"debut":2.4, "position":100, "taille":7}
+                    ]
+            }
+        },
+        {
+            "paragraphe" :
+            {
+                "texte" : "Maintenant, voici le hic ! Vous me croyez fou. Les fous ne savent rien de rien. Mais si vous m’aviez vu ! Si vous aviez vu avec quelle sagesse je procédai ! — avec quelle précaution, — avec quelle prévoyance, — avec quelle dissimulation je me mis à l’œuvre ! Je ne fus jamais plus aimable pour le vieux que pendant la semaine entière qui précéda le meurtre. Et, chaque nuit, vers minuit, je tournais le loquet de sa porte, et je l’ouvrais, — oh ! si doucement ! Et alors, quand je l’avais suffisamment entrebâillée pour ma tête, j’introduisais une lanterne sourde, bien fermée, bien fermée, ne laissant filtrer aucune lumière ; puis je passais la tête. Oh ! vous auriez ri de voir avec quelle adresse je passais ma tête ! Je la mouvais lentement, — très, très lentement, — de manière à ne pas troubler le sommeil du vieillard. Il me fallait bien une heure pour introduire toute ma tête à travers l’ouverture, assez avant pour le voir couché sur son lit. Ah ! un fou aurait-il été aussi prudent ? — Et alors, quand ma tête était bien dans la chambre, j’ouvrais la lanterne avec précaution, — oh ! avec quelle précaution, avec quelle précaution ! — car la charnière criait. — Je l’ouvrais juste assez pour qu’un filet imperceptible de lumière tombât sur l’œil de vautour. Et cela, je l’ai fait pendant sept longues nuits, — chaque nuit juste à minuit : — mais je trouvai toujours l’œil fermé ; et ainsi il me fut impossible d’accomplir l’œuvre ; car ce n’était pas le vieux homme qui me vexait, mais son mauvais œil. Et, chaque matin, quand le jour paraissait, j’entrais hardiment dans sa chambre, je lui parlais courageusement, l’appelant par son nom d’un ton cordial et m’informant comment il avait passé la nuit. Ainsi, vous voyez qu’il eût été un vieillard bien profond, en vérité, s’il avait soupçonné que, chaque nuit, juste à minuit, je l’examinais pendant son sommeil.",
+                "didascalies":
+                    [
+                        {"debut":2.5, "position":22, "taille":7},
+                        {"debut":3.6, "position":48, "taille":7},
+                        {"debut":3.8, "position":100, "taille":7}
+                    ]
+            }
+        },
+        {
+            "paragraphe" :
+            {
+                "texte" : "La huitième nuit, je mis encore plus de précaution à ouvrir la porte. La petite aiguille d’une montre se meut plus vite que ne faisait ma main. Jamais, avant cette nuit, je n’avais senti toute l’étendue de mes facultés, — de ma sagacité. Je pouvais à peine contenir mes sensations de triomphe. Penser que j’étais là, ouvrant la porte, petit à petit, et qu’il ne rêvait même pas de mes actions ou de mes pensées secrètes ! À cette idée, je lâchai un petit rire ; et peut-être m’entendit-il ; car il remua soudainement sur son lit, comme s’il se réveillait. Maintenant, vous croyez peut-être que je me retirai, — mais non. Sa chambre était aussi noire que de la poix, tant les ténèbres étaient épaisses, — car les volets étaient soigneusement fermés, de crainte des voleurs, — et, sachant qu’il ne pouvait pas voir l’entre-bâillement de la porte, je continuai à la pousser davantage, toujours davantage.",
+                "didascalies":
+                    [
+                        {"debut":4.5, "position":22, "taille":7},
+                        {"debut":4.9, "position":48, "taille":7},
+                        {"debut":5.4, "position":100, "taille":7}
+                    ]
+            }
+        },
+        {
+            "paragraphe" :
+            {
+                "texte" : "J’avais passé ma tête, et j’étais au moment d’ouvrir la lanterne, quand mon pouce glissa sur la fermeture de fer-blanc, et le vieux homme se dressa sur son lit, criant : « Qui est là ? »",
+                "didascalies":
+                    [
+                        {"debut":1.5, "position":22, "taille":7},
+                        {"debut":1.9, "position":48, "taille":7},
+                        {"debut":2.4, "position":100, "taille":7}
+                    ]
+            }
+        }
+    ]
+}
+

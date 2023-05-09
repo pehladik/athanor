@@ -1,0 +1,2 @@
+"note": {"date":0, "son": ["wav", "petit_torrent"], "effet":["cut", 10], "fade":1}
+"note": {"date":11, "son": ["wav", "rue_joyeuse"], "effet":["cut", 2]}

@@ -74,6 +74,15 @@ Par défaut le son est en stereo avec la même puissance à droite et gauche. Il
 
 Attention le paramètre `effet` est appliqués avant `canal`.
 
+## Duck
+
+Il est possible d'ajouter un effet de ducking sur un son. Cet effet consite à baisser le volume de la piste principale pendant la durée du son. il suffit d'ajouter à une note `"duck":<value>` avec `value` la valeur en dB de l'atténuation de la piste sur laquelle se superpose le son, par exemple `"note": {"date":9, "son": ["wav", "rue_joyeuse"], "effet":["cut", 2], "duck":6}` baisse de 6dB la piste principale entre la date 9 et 11 (durée du son).
+
+Il est possible d'ajouter les autres effets sur le son _ducked_ (_cut_, _crossfade_, etc.). Si l'on veut augmenter le son _ducked_, il faut utiliser l'effet `gain`, par exemple `"note": {"date":9, "son": ["wav", "rue_joyeuse"], "effet":["cut", 2], "duck":6, "gain":12}` augmente de 12dB le son et diminue de 6dB la piste principale.
+Attentin les son _dicked_ sont traités après tous les autres sons, il est possible que des effets indésirables apparaîssent en mixant tous les effets.
+
+Actuellement il n'y a pas de _crossfade_ sur la baisse de volume de la piste principale.
+
 ## Génération de la bande sonore
 
 Pour générer la bande sonore vous pouvez appeler le script pyhton `to_audio.py`, les options à passer sont :

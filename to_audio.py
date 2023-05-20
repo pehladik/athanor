@@ -4,7 +4,90 @@ import json
 import argparse
 import random
 
+def applyEffect(res, lines, sounds):
+    pos = int(res['date']*1000)
+    audiofile =  res['son'][1]+"."+res['son'][0]
+    sound = AudioSegment.from_file(sounds+"/"+audiofile, format=res['son'][0])       
 
+    if 'gain' in res.keys():
+        gain = float(res['gain'])
+        sound = sound + gain
+
+    if 'speedup' in res.keys():
+        speedup = float(res['speedup'])
+        print(speedup)
+        sound = effects.speedup(sound, playback_speed=speedup)
+
+    if 'effet' in res.keys():
+        effet = res['effet']
+        if (effet[0] == "cut"):                
+            sound = sound[:int(float(effet[1])*1000)] # cut the sound                
+        elif (effet[0] == "cut-next"):
+            # find next date
+            if (idx_line == len(lines) -1):
+                print("attention effet cut-next en fin de partition")
+            else:
+                next_line = lines[idx_line+1]
+                n_res = json.loads(next_line[next_line.index("{"):next_line.index("}")+1])
+                sound = sound[:int(float(n_res['date']-res['date'])*1000)] # cut the sound
+        elif (effet[0] == "crossfade"): # add crossfade effect
+            duration_in = int(float(effet[1])*1000)
+            duration_normal = int(float(effet[2])*1000)
+            duration_out = int(float(effet[2])*1000)
+            
+            pos = pos - duration_in
+            if (float(effet[1]) > 0):
+                sound = sound.fade(from_gain=-120.0, start=0, duration=duration_in)
+            sound = sound.fade(to_gain=-120.0, start=duration_in+duration_normal, duration=duration_out)
+            sound = sound[:duration_in + duration_normal + duration_out]
+        
+        elif (effet[0] == "superposition"): # default behaviour
+            pass
+
+    inc = random.choice([True, False])
+    if 'canal' in res.keys():
+        canal = res['canal']
+        #print('canal', canal)
+        if (canal[0] == 'stereo') :
+            pass
+        elif (canal[0] == 'mono-droit') :
+            sound = sound.pan(+1.0)
+        elif (canal[0] == 'mono-gauche') :
+            sound = sound.pan(-1.0)
+        elif (canal[0] == 'mono-random') :
+            if (random.choice([True, False])):
+                sound = sound.pan(+1.0)
+            else:
+                sound = sound.pan(-1.0)
+        elif (canal[0] == 'mono-incremental') :
+            if (inc):
+                sound = sound.pan(+1.0)
+                inc = False
+            else:
+                sound = sound.pan(-1.0)
+                inc = True
+        elif (canal[0] == 'circular') :
+            duree = canal[2] * 1000                
+            circ_sound = AudioSegment.silent(duration=0)
+            if (canal[1] == "left_to_right"):
+                sens = 1
+            elif (canal[1] == "right_to_left"):
+                sens = -1
+            i = 0
+            step = 100
+            while (i <= duree):
+                circ_sound = circ_sound + sound[i:i+step].pan(sens*(2*i - duree)/duree)
+                i += step
+            sound = circ_sound
+        elif (canal[0] == 'gain') :
+            sound = sound.apply_gain_stereo(int(canal[1]), int(canal[2]))
+
+    if 'fade' in res.keys():
+        fade_duration = int(res['fade']*1000)
+        sound = sound.fade(from_gain=-120.0, start=0, duration=fade_duration)
+        sound = sound.fade(to_gain=-120.0, start=len(sound)-1-fade_duration, duration=fade_duration)
+
+    return sound, pos
 
 def main(partition, fileout, duration, sounds):
     random.seed(None)
@@ -16,92 +99,26 @@ def main(partition, fileout, duration, sounds):
 
     print("start reading partition")
     for idx_line in range(0, len(lines)):
+        
         #print("line:", line, end="")
         line = lines[idx_line]
         res = json.loads(line[line.index("{"):line.index("}")+1])
-        pos = int(res['date']*1000)
+        ducklist = []
+
+        if 'duck' not in res.keys():
+            sound, pos = applyEffect(res, lines, sounds)
+            piste = piste.overlay(sound, position=pos)
+        else:
+            print(">> udck")
+            ducklist.append(res)
         
-        audiofile =  res['son'][1]+"."+res['son'][0]
-        sound = AudioSegment.from_file(sounds+"/"+audiofile, format=res['son'][0])       
+        for res in ducklist:
+            print(">> apply duck")
+            sound, pos = applyEffect(res, lines, sounds)
+            gain = float(res['duck'])
+            piste = piste[:pos] + (piste[pos:pos+len(sound)] - gain ) + piste[pos+len(sound):]
+            piste = piste.overlay(sound, position=pos)
 
-        if 'gain' in res.keys():
-            gain = float(res['gain'])
-            sound = sound + gain
-        if 'speedup' in res.keys():
-            speedup = float(res['speedup'])
-            print(speedup)
-            sound = effects.speedup(sound, playback_speed=speedup)
-
-        if 'effet' in res.keys():
-            effet = res['effet']
-            if (effet[0] == "cut"):                
-                sound = sound[:int(float(effet[1])*1000)] # cut the sound                
-            elif (effet[0] == "cut-next"):
-                # find next date
-                if (idx_line == len(lines) -1):
-                    print("attention effet cut-next en fin de partition")
-                else:
-                    next_line = lines[idx_line+1]
-                    n_res = json.loads(next_line[next_line.index("{"):next_line.index("}")+1])
-                    sound = sound[:int(float(n_res['date']-res['date'])*1000)] # cut the sound
-            elif (effet[0] == "crossfade"): # add crossfade effect
-                duration_in = int(float(effet[1])*1000)
-                duration_normal = int(float(effet[2])*1000)
-                duration_out = int(float(effet[2])*1000)
-                
-                pos = pos - duration_in
-                if (float(effet[1]) > 0):
-                    sound = sound.fade(from_gain=-120.0, start=0, duration=duration_in)
-                sound = sound.fade(to_gain=-120.0, start=duration_in+duration_normal, duration=duration_out)
-                sound = sound[:duration_in + duration_normal + duration_out]
-            
-            elif (effet[0] == "superposition"): # default behaviour
-                pass
-
-        inc = random.choice([True, False])
-        if 'canal' in res.keys():
-            canal = res['canal']
-            #print('canal', canal)
-            if (canal[0] == 'stereo') :
-                pass
-            elif (canal[0] == 'mono-droit') :
-                sound = sound.pan(+1.0)
-            elif (canal[0] == 'mono-gauche') :
-                sound = sound.pan(-1.0)
-            elif (canal[0] == 'mono-random') :
-                if (random.choice([True, False])):
-                    sound = sound.pan(+1.0)
-                else:
-                    sound = sound.pan(-1.0)
-            elif (canal[0] == 'mono-incremental') :
-                if (inc):
-                    sound = sound.pan(+1.0)
-                    inc = False
-                else:
-                    sound = sound.pan(-1.0)
-                    inc = True
-            elif (canal[0] == 'circular') :
-                duree = canal[2] * 1000                
-                circ_sound = AudioSegment.silent(duration=0)
-                if (canal[1] == "left_to_right"):
-                    sens = 1
-                elif (canal[1] == "right_to_left"):
-                    sens = -1
-                i = 0
-                step = 100
-                while (i <= duree):
-                    circ_sound = circ_sound + sound[i:i+step].pan(sens*(2*i - duree)/duree)
-                    i += step
-                sound = circ_sound
-            elif (canal[0] == 'gain') :
-                sound = sound.apply_gain_stereo(int(canal[1]), int(canal[2]))
-
-        if 'fade' in res.keys():
-            fade_duration = int(res['fade']*1000)
-            sound = sound.fade(from_gain=-120.0, start=0, duration=fade_duration)
-            sound = sound.fade(to_gain=-120.0, start=len(sound)-1-fade_duration, duration=fade_duration)
-
-        piste = piste.overlay(sound, position=pos)
 
     print("Exporting audio file")
     piste.export(fileout, format="mp3")

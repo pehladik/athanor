@@ -1,0 +1,6 @@
+"note": {"date":0, "son": ["wav", "petit_torrent"], "effet":["cut", 6]}
+"note": {"date":3, "son": ["wav", "rue_joyeuse"], "effet":["cut", 2]}
+"note": {"date":6, "son": ["wav", "petit_torrent"], "effet":["cut", 6]}
+"note": {"date":9, "son": ["wav", "rue_joyeuse"], "effet":["cut", 2], "duck":6}
+"note": {"date":12, "son": ["wav", "petit_torrent"], "effet":["cut", 6]}
+"note": {"date":15, "son": ["wav", "rue_joyeuse"], "effet":["cut", 2], "duck":3, "gain":6}
